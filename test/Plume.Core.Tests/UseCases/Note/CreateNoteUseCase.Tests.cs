@@ -1,3 +1,8 @@
+using Plume.Core.Entities;
+using Plume.Core.Exceptions;
+using Plume.Core.UseCases.Note.Create;
+using Plume.Core.Tests.Gateways.Impl;
+
 namespace Plume.Core.Tests.UseCases.Note;
 
 [TestClass]
@@ -24,7 +29,7 @@ public class CreateNoteUseCaseTests
 
         var response = await _uc.ExecuteAsync(command);
 
-        Assert.IsTrue(_dirRepo.Items.FirstOrDefault() is not null);
+        Assert.IsNotNull(_dirRepo.Items.FirstOrDefault());
         Assert.AreEqual(DEFAULT_NAME, _dirRepo.Items.First().Children[0].Name);
     }
 

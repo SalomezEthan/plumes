@@ -1,4 +1,4 @@
-using Plume.Core.Entities;
+using Plume.Core.Tests.Gateways.Impl;
 
 namespace Plume.Core.Tests.Gateways.Tests;
 
@@ -19,7 +19,7 @@ public class FakeDirectoryRepositoryTest
         _repo.PrepareGeneratedFolderWithMetadataWithName(name);
         var dir = await _repo.GetById(Guid.NewGuid());
 
-        Assert.AreEqual(name, dir.Children[0].Name);
+        Assert.AreEqual(name, dir!.Children[0].Name);
     }
 
     [TestMethod]
@@ -44,6 +44,6 @@ public class FakeDirectoryRepositoryTest
         var id = Guid.NewGuid();
         var dir = new Entities.Directory(id);
         await _repo.SaveAsync(dir);
-        Assert.IsTrue(_repo.items.Any(dir => dir.Id == id));
+        Assert.IsTrue(_repo.Items.Any(dir => dir.Id == id));
     }
 }
