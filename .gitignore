@@ -1,0 +1,6 @@
+# C#
+obj/
+bin/
+
+# VSCode
+.vscode/

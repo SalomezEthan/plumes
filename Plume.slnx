@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Plume.Core/Plume.Core.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Plume.Core.Tests/Plume.Core.Tests.csproj" />
+  </Folder>
+</Solution>
