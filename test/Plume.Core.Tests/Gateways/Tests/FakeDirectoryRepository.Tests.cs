@@ -1,4 +1,5 @@
 using Plume.Core.Tests.Gateways.Impl;
+using Plume.Core.ValueObjects;
 
 namespace Plume.Core.Tests.Gateways.Tests;
 
@@ -14,7 +15,7 @@ public class FakeDirectoryRepositoryTest
     [TestMethod]
     public async Task PrepareGeneratedFolderWithMetadataWithName_ShouldReturnDirWithFirstDirChildWithName() 
     {
-        string name = "cool-name";
+        NoteName name = new ("cool");
         
         _repo.PrepareGeneratedFolderWithMetadataWithName(name);
         var dir = await _repo.GetById(Guid.NewGuid());

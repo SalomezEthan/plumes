@@ -2,6 +2,7 @@ using Plume.Core.Entities;
 using Plume.Core.Exceptions;
 using Plume.Core.UseCases.Note.Create;
 using Plume.Core.Tests.Gateways.Impl;
+using Plume.Core.ValueObjects;
 
 namespace Plume.Core.Tests.UseCases.Note;
 
@@ -30,7 +31,7 @@ public class CreateNoteUseCaseTests
         var response = await _uc.ExecuteAsync(command);
 
         Assert.IsNotNull(_dirRepo.Items.FirstOrDefault());
-        Assert.AreEqual(DEFAULT_NAME, _dirRepo.Items.First().Children[0].Name);
+        Assert.AreEqual(DEFAULT_NAME, _dirRepo.Items.First().Children[0].Name.ToString());
     }
 
     [TestMethod]
@@ -44,7 +45,7 @@ public class CreateNoteUseCaseTests
         var resp = await _uc.ExecuteAsync(command);
 
         Assert.AreEqual(resp.CreatedNoteName, command.Name.Trim());
-        Assert.AreEqual(_dirRepo.Items.First().Children.First().Name, command.Name.Trim());
+        Assert.AreEqual(_dirRepo.Items.First().Children.First().Name.ToString(), command.Name.Trim());
     }
 
     [TestMethod]
@@ -62,7 +63,7 @@ public class CreateNoteUseCaseTests
     public async Task ShouldThrowWhenNameIsTooLong()
     {
         var command = new CreateNoteCommand(
-            Name: new string('c', NoteMetadata.MAX_NAME_LENGTH + 1),
+            Name: new string('c', NoteName.MAX_NAME_LENGTH + 1),
             DirectoryId: Guid.NewGuid()
         );
 
@@ -77,7 +78,7 @@ public class CreateNoteUseCaseTests
             DirectoryId: Guid.NewGuid()
         );
 
-        _dirRepo.PrepareGeneratedFolderWithMetadataWithName(command.Name);
+        _dirRepo.PrepareGeneratedFolderWithMetadataWithName(new NoteName(command.Name));
         await Assert.ThrowsExactlyAsync<NameAlreadyExistsException>(() => _uc.ExecuteAsync(command));
     }
 

@@ -1,11 +1,12 @@
 using Plume.Core.Entities;
 using Plume.Core.Gateways;
+using Plume.Core.ValueObjects;
 
 namespace Plume.Core.Tests.Gateways.Impl;
 
 public class FakeDirectoryRepository : IDirectoryRepository
 {
-    private string? _defaultChildName;
+    private NoteName? _defaultChildName;
 
     public FakeDirectoryRepository()
     {
@@ -25,7 +26,7 @@ public class FakeDirectoryRepository : IDirectoryRepository
 
         if (_defaultChildName is not null)
         {
-            dir.Children.Add(new NoteMetadata(Guid.NewGuid(), _defaultChildName ?? "thomas"));
+            dir.Children.Add(new NoteMetadata(Guid.NewGuid(), _defaultChildName));
         }
         
         return Task.FromResult<Entities.Directory?>(dir);
@@ -36,7 +37,7 @@ public class FakeDirectoryRepository : IDirectoryRepository
         Items.Add(dir);
     }
 
-    public void PrepareGeneratedFolderWithMetadataWithName(string name)
+    public void PrepareGeneratedFolderWithMetadataWithName(NoteName name)
     {
         _defaultChildName = name;
     }

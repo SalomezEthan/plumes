@@ -1,15 +1,16 @@
+using Plume.Core.ValueObjects;
+
 namespace Plume.Core.Entities;
 
 public class NoteMetadata
 {
-    public const int MAX_NAME_LENGTH = 24;
 
-    public NoteMetadata(Guid id, string name)
+    public NoteMetadata(Guid id, NoteName name)
     {
         Id = id;
         Name = name;
     }
 
     public Guid Id { get; }
-    public string Name { get; set; }
+    public NoteName Name { get; private set; }
 }
