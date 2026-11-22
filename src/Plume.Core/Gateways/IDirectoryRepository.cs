@@ -4,6 +4,6 @@ namespace Plume.Core.Gateways;
 
 public interface IDirectoryRepository
 {
-    Task<Entities.Directory?> GetById(Guid directoryId);
+    Task<Entities.Directory?> GetByIdAsync(Guid directoryId);
     Task SaveAsync(Entities.Directory dir);
 }

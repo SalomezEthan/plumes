@@ -16,7 +16,7 @@ public sealed class CreateNoteUseCase(IDirectoryRepository dirRepo)
             name : noteName
         );
 
-        var dir = await dirRepo.GetById(command.DirectoryId) 
+        var dir = await dirRepo.GetByIdAsync(command.DirectoryId) 
         ?? throw new NotFoundException("Dossier", command.DirectoryId);
 
         dir.AddChild(metadata);

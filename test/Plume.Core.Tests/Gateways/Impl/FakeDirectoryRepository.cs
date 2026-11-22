@@ -15,7 +15,7 @@ public class FakeDirectoryRepository : IDirectoryRepository
     public bool FindsNothing { get; set; }
     public List<Core.Entities.Directory> Items { get; } = [];
 
-    public Task<Core.Entities.Directory?> GetById(Guid directoryId)
+    public Task<Core.Entities.Directory?> GetByIdAsync(Guid directoryId)
     {
         if (FindsNothing)
         {

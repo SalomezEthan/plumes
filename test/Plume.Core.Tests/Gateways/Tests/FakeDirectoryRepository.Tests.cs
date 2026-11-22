@@ -18,7 +18,7 @@ public class FakeDirectoryRepositoryTest
         NoteName name = new ("cool");
         
         _repo.PrepareGeneratedFolderWithMetadataWithName(name);
-        var dir = await _repo.GetById(Guid.NewGuid());
+        var dir = await _repo.GetByIdAsync(Guid.NewGuid());
 
         Assert.AreEqual(name, dir!.Children[0].Name);
     }
@@ -26,7 +26,7 @@ public class FakeDirectoryRepositoryTest
     [TestMethod]
     public async Task GetById_ShouldReturnGeneratedDir()
     {
-        var dir = await _repo.GetById(Guid.NewGuid());
+        var dir = await _repo.GetByIdAsync(Guid.NewGuid());
         Assert.IsNotNull(dir);
     }
 
@@ -34,7 +34,7 @@ public class FakeDirectoryRepositoryTest
     public async Task FindsNothing_ShouldChangeGetResultByNull()
     {
         _repo.FindsNothing = true;
-        var dir = await _repo.GetById(Guid.NewGuid());
+        var dir = await _repo.GetByIdAsync(Guid.NewGuid());
 
         Assert.IsNull(dir);
     }
@@ -48,7 +48,7 @@ public class FakeDirectoryRepositoryTest
             id: id,
             children: []
             );
-            
+
         await _repo.SaveAsync(dir);
         Assert.IsTrue(_repo.Items.Any(dir => dir.Id == id));
     }
