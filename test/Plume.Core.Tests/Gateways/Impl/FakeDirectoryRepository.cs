@@ -13,26 +13,29 @@ public class FakeDirectoryRepository : IDirectoryRepository
     }
 
     public bool FindsNothing { get; set; }
-    public List<Entities.Directory> Items { get; } = [];
+    public List<Core.Entities.Directory> Items { get; } = [];
 
-    public Task<Entities.Directory?> GetById(Guid directoryId)
+    public Task<Core.Entities.Directory?> GetById(Guid directoryId)
     {
         if (FindsNothing)
         {
-            return Task.FromResult<Entities.Directory?>(null);
+            return Task.FromResult<Core.Entities.Directory?>(null);
         }
 
-        var dir = new Entities.Directory(directoryId);
+        var dir = new Core.Entities.Directory(
+            id: directoryId,
+            children: []
+        );
 
         if (_defaultChildName is not null)
         {
-            dir.Children.Add(new NoteMetadata(Guid.NewGuid(), _defaultChildName));
+            dir.AddChild(new NoteMetadata(Guid.NewGuid(), _defaultChildName));
         }
         
-        return Task.FromResult<Entities.Directory?>(dir);
+        return Task.FromResult<Core.Entities.Directory?>(dir);
     }
 
-    public async Task SaveAsync(Entities.Directory dir)
+    public async Task SaveAsync(Core.Entities.Directory dir)
     {
         Items.Add(dir);
     }

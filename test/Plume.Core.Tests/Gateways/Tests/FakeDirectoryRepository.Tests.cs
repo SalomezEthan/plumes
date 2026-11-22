@@ -43,7 +43,12 @@ public class FakeDirectoryRepositoryTest
     public async Task Save_ShouldAddDirInPersistenceList()
     {
         var id = Guid.NewGuid();
-        var dir = new Entities.Directory(id);
+
+        var dir = new Core.Entities.Directory(
+            id: id,
+            children: []
+            );
+            
         await _repo.SaveAsync(dir);
         Assert.IsTrue(_repo.Items.Any(dir => dir.Id == id));
     }

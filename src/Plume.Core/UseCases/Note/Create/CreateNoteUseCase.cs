@@ -11,20 +11,15 @@ public sealed class CreateNoteUseCase(IDirectoryRepository dirRepo)
     {
         var noteName = new NoteName(command.Name);
 
-        var dir = await dirRepo.GetById(command.DirectoryId) 
-        ?? throw new NotFoundException("Dossier", command.DirectoryId);
-
-        if (dir.Children.Any(child => child.Name.ToString().Equals(noteName.ToString(), StringComparison.CurrentCulture)))
-        {
-            throw new NameAlreadyExistsException();
-        }
-
         var metadata = new NoteMetadata(
             id: Guid.NewGuid(),
             name : noteName
         );
 
-        dir.Children.Add(metadata);
+        var dir = await dirRepo.GetById(command.DirectoryId) 
+        ?? throw new NotFoundException("Dossier", command.DirectoryId);
+
+        dir.AddChild(metadata);
 
         await dirRepo.SaveAsync(dir);
 
