@@ -34,6 +34,20 @@ public class CreateNoteUseCaseTests
     }
 
     [TestMethod]
+    public async Task ShouldTrimName()
+    {
+        var command = new CreateNoteCommand(
+            Name: "        nom-trim        ",
+            DirectoryId: Guid.NewGuid()
+        );
+
+        var resp = await _uc.ExecuteAsync(command);
+
+        Assert.AreEqual(resp.CreatedNoteName, command.Name.Trim());
+        Assert.AreEqual(_dirRepo.Items.First().Children.First().Name, command.Name.Trim());
+    }
+
+    [TestMethod]
     public async Task ShouldThrowWhenNameIsEmpty()
     {
         var command = new CreateNoteCommand(
