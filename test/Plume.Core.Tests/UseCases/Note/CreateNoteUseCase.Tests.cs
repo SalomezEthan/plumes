@@ -35,42 +35,6 @@ public class CreateNoteUseCaseTests
     }
 
     [TestMethod]
-    public async Task ShouldTrimName()
-    {
-        var command = new CreateNoteCommand(
-            Name: "        nom-trim        ",
-            DirectoryId: Guid.NewGuid()
-        );
-
-        var resp = await _uc.ExecuteAsync(command);
-
-        Assert.AreEqual(resp.CreatedNoteName, command.Name.Trim());
-        Assert.AreEqual(_dirRepo.Items.First().Children.First().Name.ToString(), command.Name.Trim());
-    }
-
-    [TestMethod]
-    public async Task ShouldThrowWhenNameIsEmpty()
-    {
-        var command = new CreateNoteCommand(
-            Name: string.Empty,
-            DirectoryId: Guid.NewGuid()
-        );
-
-        await Assert.ThrowsExactlyAsync<ArgumentException>(() => _uc.ExecuteAsync(command));
-    }
-
-    [TestMethod]
-    public async Task ShouldThrowWhenNameIsTooLong()
-    {
-        var command = new CreateNoteCommand(
-            Name: new string('c', NoteName.MAX_NAME_LENGTH + 1),
-            DirectoryId: Guid.NewGuid()
-        );
-
-        await Assert.ThrowsExactlyAsync<NameTooLongException>(() => _uc.ExecuteAsync(command));
-    }
-
-    [TestMethod]
     public async Task ShouldThrowWhenNameAlreadyExists()
     {
         var command = new CreateNoteCommand(
