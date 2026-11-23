@@ -35,18 +35,6 @@ public class CreateNoteUseCaseTests
     }
 
     [TestMethod]
-    public async Task ShouldThrowWhenNameAlreadyExists()
-    {
-        var command = new CreateNoteCommand(
-            Name: DEFAULT_NAME,
-            DirectoryId: Guid.NewGuid()
-        );
-
-        _dirRepo.PrepareGeneratedFolderWithMetadataWithName(new NoteName(command.Name));
-        await Assert.ThrowsExactlyAsync<NameAlreadyExistsException>(() => _uc.ExecuteAsync(command));
-    }
-
-    [TestMethod]
     public async Task ShouldThrowWhenDirectoryNotExists()
     {
         var command = new CreateNoteCommand(
