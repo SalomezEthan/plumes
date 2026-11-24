@@ -41,6 +41,24 @@ public class RenameNoteUseCaseTests
     }
 
     [TestMethod]
+    public async Task ShouldReturnResult()
+    {
+        var name = new NoteName("file");
+        _dirRepo.PrepareGeneratedFolderWithMetadataWithName(name);
+
+        string newName = "nouveau-nom";
+        var cmd = new RenameNoteCommand(
+            noteId: Guid.NewGuid(),
+            newName: newName
+        );
+
+        var result = await _uc.ExecuteAsync(cmd);
+
+        Assert.AreEqual(cmd.noteId, result.NoteId);
+        Assert.AreEqual(newName, result.NewName);
+    }
+
+    [TestMethod]
     public async Task ShouldThrow_WhenParentDirIsNotFound()
     {
         _dirRepo.FindsNothing = true;
