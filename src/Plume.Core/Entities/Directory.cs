@@ -26,4 +26,24 @@ public class Directory
 
         _children.Add(newNote);
     }
+
+    public void RenameNote(Guid noteId, NoteName newName)
+    {
+        var note = _children.First(note => note.Id == noteId);
+
+        if (note.Name.Equals(newName))
+        {
+            return;
+        }
+
+        if (_children.Any(note => note.Name.Equals(newName)))
+        {
+            throw new NameAlreadyExistsException();
+        }
+
+        note.SetName(newName);
+        
+        _children.Remove(note);
+        _children.Add(note);
+    }
 }

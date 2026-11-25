@@ -13,4 +13,9 @@ public class NoteMetadata
 
     public Guid Id { get; }
     public NoteName Name { get; private set; }
+
+    public void SetName(NoteName newName)
+    {
+        this.Name = newName;
+    }
 }

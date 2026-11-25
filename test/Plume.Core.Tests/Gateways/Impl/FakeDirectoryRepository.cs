@@ -15,11 +15,11 @@ public class FakeDirectoryRepository : IDirectoryRepository
     public bool FindsNothing { get; set; }
     public List<Core.Entities.Directory> Items { get; } = [];
 
-    public Task<Core.Entities.Directory?> GetByIdAsync(Guid directoryId)
+    public async Task<Core.Entities.Directory?> GetByIdAsync(Guid directoryId)
     {
         if (FindsNothing)
         {
-            return Task.FromResult<Core.Entities.Directory?>(null);
+            return null;
         }
 
         var dir = new Core.Entities.Directory(
@@ -32,7 +32,7 @@ public class FakeDirectoryRepository : IDirectoryRepository
             dir.AddChild(new NoteMetadata(Guid.NewGuid(), _defaultChildName));
         }
         
-        return Task.FromResult<Core.Entities.Directory?>(dir);
+        return dir;
     }
 
     public async Task SaveAsync(Core.Entities.Directory dir)
@@ -43,5 +43,23 @@ public class FakeDirectoryRepository : IDirectoryRepository
     public void PrepareGeneratedFolderWithMetadataWithName(NoteName name)
     {
         _defaultChildName = name;
+    }
+
+    public async Task<Core.Entities.Directory?> GetNoteParentAsync(Guid noteId)
+    {
+        if (FindsNothing)
+        {
+            return null;
+        }
+
+        var note = new NoteMetadata(
+            noteId,
+            new NoteName("file")
+        );
+
+        return new Core.Entities.Directory(
+            id: Guid.NewGuid(),
+            children: [note]
+        );
     }
 }

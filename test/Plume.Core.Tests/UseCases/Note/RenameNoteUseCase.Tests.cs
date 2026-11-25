@@ -1,6 +1,6 @@
-using Plume.Core.Entities;
 using Plume.Core.Exceptions;
 using Plume.Core.Tests.Gateways.Impl;
+using Plume.Core.UseCases.Note.Rename;
 using Plume.Core.ValueObjects;
 
 namespace Plume.Core.Tests.UseCases.Note;
@@ -23,10 +23,10 @@ public class RenameNoteUseCaseTests
         var name = new NoteName("file");
         _dirRepo.PrepareGeneratedFolderWithMetadataWithName(name);
 
-        string newName = "nouveau-nom";
+        string NewName = "nouveau-nom";
         var cmd = new RenameNoteCommand(
-            noteId: Guid.NewGuid(),
-            newName: newName
+            NoteId: Guid.NewGuid(),
+            NewName: NewName
         );
 
         await _uc.ExecuteAsync(cmd);
@@ -37,7 +37,7 @@ public class RenameNoteUseCaseTests
             .Name;
 
         Assert.AreNotEqual(name, nameInPersistence);
-        Assert.AreEqual(nameInPersistence.ToString(), newName);
+        Assert.AreEqual(nameInPersistence.ToString(), NewName);
     }
 
     [TestMethod]
@@ -46,16 +46,16 @@ public class RenameNoteUseCaseTests
         var name = new NoteName("file");
         _dirRepo.PrepareGeneratedFolderWithMetadataWithName(name);
 
-        string newName = "nouveau-nom";
+        string NewName = "nouveau-nom";
         var cmd = new RenameNoteCommand(
-            noteId: Guid.NewGuid(),
-            newName: newName
+            NoteId: Guid.NewGuid(),
+            NewName: NewName
         );
 
         var result = await _uc.ExecuteAsync(cmd);
 
-        Assert.AreEqual(cmd.noteId, result.NoteId);
-        Assert.AreEqual(newName, result.NewName);
+        Assert.AreEqual(cmd.NoteId, result.NoteId);
+        Assert.AreEqual(NewName, result.NewName);
     }
 
     [TestMethod]
@@ -64,8 +64,8 @@ public class RenameNoteUseCaseTests
         _dirRepo.FindsNothing = true;
 
         var cmd = new RenameNoteCommand(
-            noteId: Guid.NewGuid(),
-            newName: "coucou"
+            NoteId: Guid.NewGuid(),
+            NewName: "coucou"
         );
 
         await Assert.ThrowsExactlyAsync<NotFoundException>(() => _uc.ExecuteAsync(cmd));

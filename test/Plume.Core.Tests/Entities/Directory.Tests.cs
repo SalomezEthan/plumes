@@ -106,7 +106,7 @@ public class DirectoryTests
             [existedNote, renamedNote]
         );
 
-        Assert.ThrowsExactly<NameAlreadyExistsException>(() => dir.RenameNote(renamedNote.Id, dupplicatedName);)
+        Assert.ThrowsExactly<NameAlreadyExistsException>(() => dir.RenameNote(renamedNote.Id, dupplicatedName));
     }
 
     public void RenameNote_ShouldIgnore_WhenNoteNameIsSame()

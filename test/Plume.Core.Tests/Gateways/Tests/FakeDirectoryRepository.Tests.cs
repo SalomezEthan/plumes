@@ -58,6 +58,15 @@ public class FakeDirectoryRepositoryTest
     {
         var noteId = new Guid();
         var dir = await _repo.GetNoteParentAsync(noteId);
-        Assert.AreEqual(noteId, dir.Children[0].Id);
+        Assert.AreEqual(noteId, dir!.Children[0].Id);
+    }
+
+    [TestMethod]
+    public async Task GetNoteParentAsync_ShouldReturnNull_WhenFindsNothingPropertyIsTrue()
+    {
+        _repo.FindsNothing = true;
+
+        var dir = await _repo.GetNoteParentAsync(Guid.NewGuid());
+        Assert.IsNull(dir);
     }
 }
