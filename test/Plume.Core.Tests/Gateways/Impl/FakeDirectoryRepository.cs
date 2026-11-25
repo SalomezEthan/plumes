@@ -13,6 +13,7 @@ public class FakeDirectoryRepository : IDirectoryRepository
     }
 
     public bool FindsNothing { get; set; }
+    public bool SaveCalled { get; private set; }
     public List<Core.Entities.Directory> Items { get; } = [];
 
     public async Task<Core.Entities.Directory?> GetByIdAsync(Guid directoryId)
@@ -38,6 +39,7 @@ public class FakeDirectoryRepository : IDirectoryRepository
     public async Task SaveAsync(Core.Entities.Directory dir)
     {
         Items.Add(dir);
+        SaveCalled = true;
     }
 
     public void PrepareGeneratedFolderWithMetadataWithName(NoteName name)

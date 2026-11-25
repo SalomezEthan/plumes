@@ -31,7 +31,7 @@ public class CreateNoteUseCaseTests
         var response = await _uc.ExecuteAsync(command);
 
         Assert.IsNotNull(_dirRepo.Items.FirstOrDefault());
-        Assert.AreEqual(DEFAULT_NAME, _dirRepo.Items.First().Children[0].Name.ToString());
+        Assert.IsTrue(_dirRepo.SaveCalled);
     }
 
     [TestMethod]

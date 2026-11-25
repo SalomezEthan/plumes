@@ -54,6 +54,19 @@ public class FakeDirectoryRepositoryTest
     }
 
     [TestMethod]
+    public async Task Save_ShouldSetCallStateTrue_WhenIsCalled()
+    {
+        var dir = new Core.Entities.Directory(
+            id: Guid.NewGuid(),
+            []
+        );
+
+        await _repo.SaveAsync(dir);
+
+        Assert.IsTrue(_repo.SaveCalled);
+    }
+
+    [TestMethod]
     public async Task GetNoteParentAsync_ShouldReturnDirWithGeneratedNote()
     {
         var noteId = new Guid();
@@ -69,4 +82,6 @@ public class FakeDirectoryRepositoryTest
         var dir = await _repo.GetNoteParentAsync(Guid.NewGuid());
         Assert.IsNull(dir);
     }
+
+    
 }

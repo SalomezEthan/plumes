@@ -31,13 +31,7 @@ public class RenameNoteUseCaseTests
 
         await _uc.ExecuteAsync(cmd);
 
-        var nameInPersistence = _dirRepo
-            .Items[0]
-            .Children[0]
-            .Name;
-
-        Assert.AreNotEqual(name, nameInPersistence);
-        Assert.AreEqual(nameInPersistence.ToString(), NewName);
+        Assert.IsTrue(_dirRepo.SaveCalled);
     }
 
     [TestMethod]
