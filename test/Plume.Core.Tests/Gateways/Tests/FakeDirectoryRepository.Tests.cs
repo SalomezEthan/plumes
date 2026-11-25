@@ -52,4 +52,12 @@ public class FakeDirectoryRepositoryTest
         await _repo.SaveAsync(dir);
         Assert.IsTrue(_repo.Items.Any(dir => dir.Id == id));
     }
+
+    [TestMethod]
+    public async Task GetNoteParentAsync_ShouldReturnDirWithGeneratedNote()
+    {
+        var noteId = new Guid();
+        var dir = await _repo.GetNoteParentAsync(noteId);
+        Assert.AreEqual(noteId, dir.Children[0].Id);
+    }
 }
